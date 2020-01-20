@@ -84,13 +84,14 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   while True:
     cmd = input("Enter lat1,lon1:")
     for c in cities:
-       if float(cmd.split()[0]) >= c.lat and float(cmd.split()[1]) <= c.lon:
+       if float(cmd.split()[0]) <= c.lat and float(cmd.split()[1]) >= c.lon:
         within.append(c) 
         print(within)
         cmd2 = input("Enter lat2,lon2:")
         for w in within:
-          if float(cmd2.split()[0]) <= w.lat and float(cmd2.split()[1]) >= w.lon:
+          if float(cmd2.split()[0]) >= w.lat and float(cmd2.split()[1]) <= w.lon:
             print (within)
+            return(within)
 
 
   # Ensure that the lat and lon valuse are all floats
