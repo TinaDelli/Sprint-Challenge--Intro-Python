@@ -1,6 +1,13 @@
+import csv
 # Create a class to hold a city location. Call the class "City". It should have
 # fields for name, lat and lon (representing latitude and longitude).
-
+class City:
+  def __init__(self, name, lat, lon):
+    self.name = name
+    self.lat = lat
+    self.lon = lon
+  def __repr__(self):
+    return (f'{self.name}, {self.lat}, {self.lon}')
 
 # We have a collection of US cities with population over 750,000 stored in the
 # file "cities.csv". (CSV stands for "comma-separated values".)
@@ -17,18 +24,29 @@
 cities = []
 
 def cityreader(cities=[]):
-  # TODO Implement the functionality to read from the 'cities.csv' file
+  # Implement the functionality to read from the 'cities.csv' file
   # For each city record, create a new City instance and add it to the 
   # `cities` list
-    
+  with open('cities.csv') as c:
+    contents = csv.reader(c)
+    line_count = 0
+    for row in contents:
+      if line_count == 0:
+        # print(f'{", ".join(row)}')
+        line_count += 1
+      else:
+        # print(f'\t{row[0]} is the city {row[3]} is the lat and {row[4]} is the lon')
+        cities.append(City(row[0], float(row[3]), float(row[4])))
+        line_count += 1
     return cities
 
 cityreader(cities)
+print(f'{cities.__repr__()}')
 
 # Print the list of cities (name, lat, lon), 1 record per line.
 for c in cities:
     print(c)
-
+    
 # STRETCH GOAL!
 #
 # Allow the user to input two points, each specified by latitude and longitude.
@@ -58,13 +76,25 @@ for c in cities:
 # Tucson: (32.1558,-110.8777)
 # Salt Lake City: (40.7774,-111.9301)
 
-# TODO Get latitude and longitude values from the user
+#Get latitude and longitude values from the user
 
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
   within = []
+  while True:
+    cmd = input("Enter lat1,lon1:")
+    for c in cities:
+       if float(cmd.split()[0]) <= c.lat and float(cmd.split()[1]) >= c.lon:
+        within.append(c) 
+        print(within)
+        cmd2 = input("Enter lat2,lon2:")
+        for w in within:
+          if float(cmd2.split()[0]) >= w.lat and float(cmd2.split()[1]) <= w.lon:
+            print (within)
+            return(within)
 
-  # TODO Ensure that the lat and lon valuse are all floats
+
+  # Ensure that the lat and lon valuse are all floats
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
 
